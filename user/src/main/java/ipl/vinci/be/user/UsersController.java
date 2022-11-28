@@ -30,7 +30,7 @@ public class UsersController {
     }
 
     @GetMapping("/users/{id}")
-    public User readOneByEmail (@PathVariable long id){
+    public User readOneById (@PathVariable long id){
         User user = service.readOneById(id);
         if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         return user;
