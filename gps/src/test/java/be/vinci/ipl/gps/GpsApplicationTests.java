@@ -1,10 +1,10 @@
-package be.vinci.ipl.notifications;
+package be.vinci.ipl.gps;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class NotificationsApplicationTests {
+class GpsApplicationTests {
 
   @Test
   void contextLoads() {

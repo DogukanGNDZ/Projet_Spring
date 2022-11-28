@@ -15,10 +15,10 @@ import javax.persistence.Id;
 public class Notification {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int notification_id;
-  private int user_id;
-  private int trip_id;
+  private long notificationId;
+  private long userId;
+  private long tripId;
   private String date;
-  private String notification_text;
+  private String notificationText;
 
 }

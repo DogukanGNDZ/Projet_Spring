@@ -10,9 +10,9 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class NoIdNotification {
-  private int user_id;
-  private int trip_id;
+  private long userId;
+  private long tripId;
   private String date;
-  private String notification_text;
-  public Notification toNotification(){return new Notification(0,user_id,trip_id,date,notification_text);}
+  private String notificationText;
+  public Notification toNotification(){return new Notification(0L,userId,tripId,date,notificationText);}
 }

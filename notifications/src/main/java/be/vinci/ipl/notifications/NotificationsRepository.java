@@ -1,9 +1,9 @@
 package be.vinci.ipl.notifications;
 import org.springframework.data.repository.CrudRepository;
 
-public interface NotificationsRepository extends CrudRepository<Notification,Integer>{
+public interface NotificationsRepository extends CrudRepository<Notification,Long>{
 
-  Iterable<Notification>  findByUser_id(int user_id);
-  Notification findByUser_idAndAndTrip_id(int user_id, int trip_id);
-
+  Iterable<Notification>  findByUserId(long userId);
+  void removeAllByUserId(long userId);
+  boolean removeAllByTripId(long tripId);
 }
