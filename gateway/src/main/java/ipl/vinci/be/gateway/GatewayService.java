@@ -70,4 +70,8 @@ public class GatewayService {
         return tripsProxy.createOne(trip);
     }
 
+    public Passengers getPassengersStatus(long tripId){
+        return
+    }
+
 }
