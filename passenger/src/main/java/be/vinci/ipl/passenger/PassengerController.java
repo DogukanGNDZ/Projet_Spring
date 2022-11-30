@@ -39,8 +39,8 @@ public class PassengerController {
   }
 
   @PutMapping("/passengers/{trip_id}/{user_id}")
-  public ResponseEntity<Void> updatePassenger(@PathVariable long trip_id, @PathVariable long user_id, @RequestParam Etat etat){
-    if (!(etat == Etat.ACCEPTED || etat == Etat.REFUSED)){throw new StatusNotInAcceptedValueException();}
+  public ResponseEntity<Void> updatePassenger(@PathVariable long trip_id, @PathVariable long user_id, @RequestParam String etat){
+    if (!(etat == "ACCEPTED" || etat == "REFUSED")){throw new StatusNotInAcceptedValueException();}
     service.updateStatus(trip_id, user_id, etat);
     return new ResponseEntity<>(HttpStatus.OK);
   }

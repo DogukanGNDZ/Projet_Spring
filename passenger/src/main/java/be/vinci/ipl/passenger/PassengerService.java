@@ -47,14 +47,20 @@ public class PassengerService {
     return true;
   }
 
-  public void updateStatus(long idTrip, long idUser, Etat etat) throws TripOrUserNotFound404Exception {
+  public void updateStatus(long idTrip, long idUser, String etat) throws TripOrUserNotFound404Exception {
     if (!repo.existsByIdTripAndIdUser(idTrip, idUser)){throw new UserNotPassengerException();}
     if (repo.getPassengerByIdTripAndIdUser(idTrip, idUser).getEtat() != Etat.PENDING){throw new PassengerEtatNotPendingException();}
     Passenger oldPassenger = repo.getPassengerByIdTripAndIdUser(idTrip, idUser);
     if (oldPassenger == null){
       throw new TripOrUserNotFound404Exception();
     }
-    NoIdPassenger noIdPassenger = new NoIdPassenger(idTrip, idUser, etat);
+    NoIdPassenger noIdPassenger;
+    if (etat == "ACCEPTED") {
+       noIdPassenger = new NoIdPassenger(idTrip, idUser, Etat.ACCEPTED);
+    } else{
+       noIdPassenger = new NoIdPassenger(idTrip, idUser, Etat.REFUSED);
+  }
+
     repo.save(noIdPassenger.toPassenger(oldPassenger.getId()));
   }
 
