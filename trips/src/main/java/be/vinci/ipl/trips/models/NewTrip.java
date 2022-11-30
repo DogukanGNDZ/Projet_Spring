@@ -35,7 +35,7 @@ public class NewTrip {
     private int available_seating;
 
     public Trip toTrip() {
-        return new Trip(0, origin, destination,departure,driver_id,available_seating);
+        return new Trip(0, origin, destination,departure,driver_id,available_seating,LocalDate.now());
     }
 
 

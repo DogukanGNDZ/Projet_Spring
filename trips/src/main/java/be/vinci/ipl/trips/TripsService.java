@@ -78,12 +78,71 @@ public class TripsService {
 
 
 
-    public Iterable<Trip> findOptionnalTrips(LocalDate departure, double originLat, double originLong, double destinationLat, double destinationLong) {
+    public Iterable<Trip> findOptionnalTrips(LocalDate departure, Double originLat, Double originLong, Double destinationLat, Double destinationLong) {
         Iterable<Trip> res = repository.findByAvailableSeatingIsGreaterThan(0);
-        return StreamSupport.stream(res.spliterator(), false)
+
+        //Si la date de départ, l'origine et la destination est spécifié
+        if(departure != null && originLat != null && originLong != null && destinationLat != null && destinationLong != null){
+            res = StreamSupport.stream(res.spliterator(), false)
+                    .filter(t -> t.getDeparture().equals(departure) &&
+                            t.getOrigin().getLatitude() == originLat &&
+                            t.getOrigin().getLongitude() == originLong &&
+                            t.getDestination().getLatitude() == destinationLat &&
+                            t.getDestination().getLongitude() ==destinationLong)
+                    .collect(Collectors.toList());
+
+        // Si la date de départ et l'origine est spécifié
+        } else if (departure != null && originLat != null && originLong != null){
+            res = StreamSupport.stream(res.spliterator(), false)
+                    .filter(t -> t.getDeparture().equals(departure) &&
+                            t.getOrigin().getLatitude() == originLat &&
+                            t.getOrigin().getLongitude() == originLong)
+                    .collect(Collectors.toList());
+
+        // Si la date de départ et la destination est spécifié
+        } else if(departure != null && destinationLat != null && destinationLong != null){
+            res = StreamSupport.stream(res.spliterator(), false)
+                    .filter(t -> t.getDeparture().equals(departure) &&
+                            t.getDestination().getLatitude() == destinationLat &&
+                            t.getDestination().getLongitude() ==destinationLong)
+                    .collect(Collectors.toList());
+
+        // Si l'origine et la destination est spécifié mais pas la date
+        } else if (originLat != null && originLong != null && destinationLat != null && destinationLong != null) {
+            res = StreamSupport.stream(res.spliterator(), false)
+                    .filter(t -> t.getOrigin().getLatitude() == originLat &&
+                            t.getOrigin().getLongitude() == originLong &&
+                            t.getDestination().getLatitude() == destinationLat &&
+                            t.getDestination().getLongitude() ==destinationLong)
+                    .collect(Collectors.toList());
+
+        // Si l'origine est spécifié mais pas la date ni la destination
+        } else if (originLat != null && originLong != null) {
+            res = StreamSupport.stream(res.spliterator(), false)
+                    .filter(t -> t.getOrigin().getLatitude() == originLat &&
+                            t.getOrigin().getLongitude() == originLong)
+                    .collect(Collectors.toList());
+
+        // Si la destination est specifié mais pas la date ni l'origine
+        } else if (destinationLat != null && destinationLong != null) {
+            res = StreamSupport.stream(res.spliterator(), false)
+                    .filter(t -> t.getDestination().getLatitude() == destinationLat &&
+                            t.getDestination().getLongitude() ==destinationLong)
+                    .collect(Collectors.toList());
+
+        // Si la date est specifié mais pas l'origine ni la destination
+        } else if(departure != null){
+            res = StreamSupport.stream(res.spliterator(), false)
+                    .filter(t -> t.getDeparture().equals(departure))
+                    .collect(Collectors.toList());
+        }
+
+        //Limite les résultats a 20 et ordonne la liste par date de création
+        res = StreamSupport.stream(res.spliterator(), false)
                 .limit(20)
-                .filter(t -> t.getDeparture().equals(departure))
-                .sorted(Comparator.comparing(Trip::getDeparture))
+                .sorted(Comparator.comparing(Trip::getCreationDate))
                 .collect(Collectors.toList());
+
+        return res;
     }
 }

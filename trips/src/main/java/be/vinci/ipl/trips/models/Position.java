@@ -15,6 +15,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @Embeddable
 public class Position {
+
     private double latitude;
     private double longitude;
 }

@@ -41,4 +41,8 @@ public class Trip {
     @JsonProperty("available_seating")
     @Column(name="available_seating")
     private int availableSeating;
+
+    @JsonProperty("creation_date")
+    @Column(name="creation_date")
+    private LocalDate creationDate;
 }

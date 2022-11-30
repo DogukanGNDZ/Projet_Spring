@@ -1,7 +1,6 @@
 package be.vinci.ipl.trips;
 
 import be.vinci.ipl.trips.models.NewTrip;
-import be.vinci.ipl.trips.models.Position;
 import be.vinci.ipl.trips.models.Trip;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -22,8 +21,7 @@ public class TripsController {
     @PostMapping("/trips")
     public Trip createOne(@RequestBody NewTrip trip){
         if(trip.getOrigin() == null || trip.getDestination() == null || trip.getDeparture() == null
-                || trip.getAvailable_seating() <= 0){
-            //trip.getDeparture().isBefore(LocalDate.now())
+                || trip.getAvailable_seating() <= 0 || trip.getDeparture().isBefore(LocalDate.now())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         return service.createOne(trip);
@@ -55,9 +53,12 @@ public class TripsController {
     }
 
     @GetMapping("/trips")
-    public Iterable<Trip> readOptionnalTrip(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departure, @RequestParam(required = false) double originLat,@RequestParam(required = false) double originLong, @RequestParam(required = false)double destinationLat, @RequestParam(required = false)double destinationLong) {
-        //Verifier les param
-        return service.findOptionnalTrips(departure, originLat,originLong,destinationLat,destinationLong);
+    public Iterable<Trip> readOptionalTrip(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departure,
+                                           @RequestParam(required = false) Double originLat,
+                                           @RequestParam(required = false) Double originLong,
+                                           @RequestParam(required = false) Double destinationLat,
+                                           @RequestParam(required = false) Double destinationLong) {
+        return service.findOptionnalTrips(departure,originLat,originLong,destinationLat,destinationLong);
     }
 
 }
