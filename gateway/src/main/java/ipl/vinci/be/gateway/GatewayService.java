@@ -2,12 +2,13 @@ package ipl.vinci.be.gateway;
 
 import ipl.vinci.be.gateway.data.AuthenticationProxy;
 import ipl.vinci.be.gateway.data.NotificationsProxy;
+import ipl.vinci.be.gateway.data.PassengersProxy;
 import ipl.vinci.be.gateway.data.TripsProxy;
 import ipl.vinci.be.gateway.data.UsersProxy;
 import ipl.vinci.be.gateway.models.*;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class GatewayService {
@@ -16,12 +17,16 @@ public class GatewayService {
 
     private final TripsProxy tripsProxy;
     private final NotificationsProxy notificationsProxy;
+    private final PassengersProxy passengersProxy;
 
-    public GatewayService(AuthenticationProxy authenticationProxy, UsersProxy usersProxy, TripsProxy tripsProxy, NotificationsProxy notificationsProxy) {
+    public GatewayService(AuthenticationProxy authenticationProxy, UsersProxy usersProxy,
+        TripsProxy tripsProxy, NotificationsProxy notificationsProxy,
+        PassengersProxy passengersProxy) {
         this.authenticationProxy = authenticationProxy;
         this.usersProxy = usersProxy;
         this.tripsProxy = tripsProxy;
         this.notificationsProxy = notificationsProxy;
+        this.passengersProxy = passengersProxy;
     }
 
     public String connect(Credentials credentials) {
@@ -59,6 +64,10 @@ public class GatewayService {
         usersProxy.updateOne(id, user);
     }
 
+    public PassengerTrips getTripsUserAPassenger(long userId){
+        return passengersProxy.tripsOfAPassenger(userId);
+    }
+
     public Iterable<Notification> getNotification(long id){
       return  notificationsProxy.getUserNotifications(id);
     }
@@ -70,8 +79,31 @@ public class GatewayService {
         return tripsProxy.createOne(trip);
     }
 
-    public Passengers getPassengersStatus(long tripId){
-        return
+    public Trip getInfoOnTrip(long id){
+        return tripsProxy.readOne(id);
+    }
+    public void deleteATrip(long id){
+        tripsProxy.deleteOne(id);
+    }
+
+    public Passengers getPassengersTripByStatus(long tripId){
+        return passengersProxy.getListOfPassengersOfATrip(tripId);
+    }
+
+    public void addPassengerToATrip(long tripId, long userId){
+        passengersProxy.addPassenger(tripId, userId);
+    }
+
+    public String getPassengerStatus(long tripId, long userId) {
+        return passengersProxy.getPassengerStatus(tripId, userId);
+    }
+
+    public void updatePassenger(long tripId, long userId, String etat) {
+        passengersProxy.updatePassenger(tripId, userId, etat);
+    }
+
+    public void deletePassenger(long tripId, long userId) {
+        passengersProxy.deletePassenger(tripId, userId);
     }
 
 }

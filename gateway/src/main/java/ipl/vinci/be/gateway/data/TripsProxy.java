@@ -13,21 +13,21 @@ import java.time.LocalDate;
 @FeignClient(name = "trips")
 public interface TripsProxy {
 
-
+//j'ai change les int en long ne pas oublie de change dans le service
     @PostMapping("/trips")
     public Trip createOne(@RequestBody NewTrip trip);
 
     @GetMapping("trips/{id}")
-    public Trip readOne(@PathVariable int id);
+    public Trip readOne(@PathVariable long id);
 
     @DeleteMapping("/trips/{id}")
-    public void deleteOne(@PathVariable int id);
+    public void deleteOne(@PathVariable long id);
 
     @GetMapping("/trips/driver/{user_id}")
-    public Iterable<Trip> readAllTripByDriverId(@PathVariable int user_id);
+    public Iterable<Trip> readAllTripByDriverId(@PathVariable long user_id);
 
     @DeleteMapping("/trips/driver/{user_id}")
-    public void deleteAllTripsByDriverId(@PathVariable int user_id);
+    public void deleteAllTripsByDriverId(@PathVariable long user_id);
     @GetMapping("/trips")
     public Iterable<Trip> readOptionnalTrip(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departure, @RequestParam(required = false) double originLat, @RequestParam(required = false) double originLong, @RequestParam(required = false)double destinationLat, @RequestParam(required = false)double destinationLong);
 

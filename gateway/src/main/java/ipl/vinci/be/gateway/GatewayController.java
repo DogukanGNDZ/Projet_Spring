@@ -69,20 +69,21 @@ public class GatewayController {
     /*
     ligne 157 du YAML
     @GetMapping("/users/{id}/driver")
-    List<Trip> UserTripDriver(@PathVariable int id, @RequestHeader("Authorization") String token){
+    List<Trip> UserTripDriver(@PathVariable long id, @RequestHeader("Authorization") String token){
         //besoin de trip je suis agenoux
     }
 
     */
 
-/*
 
-ligne 187 du YML
     @GetMapping("/users/{id}/passenger")
-    Passenger_trips UserTripDriver(@PathVariable int id, @RequestHeader("Authorization") String token){
-        //besoin de passenger je suis agenoux
+    PassengerTrips getTripsUserAPassenger(@PathVariable long id, @RequestHeader("Authorization") String token){
+        String userEmail = service.verify(token);
+        User user = service.readUser(userEmail);
+        if (user.getId()!=id) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        return service.getTripsUserAPassenger(id);
     }
-*/
+
 
     @GetMapping("/users/{id}/notifications")
     List<Notification> getUserNotification(@PathVariable int id, @RequestHeader("Authorization") String token){
@@ -105,4 +106,62 @@ ligne 187 du YML
          return service.createTrip(trip);
     }
 
+    //passe 284
+
+    @GetMapping("/trips/{id}")
+    Trip getInfoOnTrip(@PathVariable int id){
+        return service.getInfoOnTrip(id);
+    }
+    @DeleteMapping("/trips/{id}")
+    void deleteATrip(@PathVariable int idTrip, @RequestHeader("Authorization") String token){
+        String userEmail = service.verify(token);
+        User user = service.readUser(userEmail);
+        Trip trip=service.getInfoOnTrip(idTrip);
+        if (user.getId()!=trip.getDriver_id()) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        service.deleteATrip(idTrip);
+    }
+
+    @GetMapping("/trips/{id}/passengers")
+    Passengers getListPassengersTripByStatus(@PathVariable long id, @RequestHeader("Authorization") String token){
+        String userEmail = service.verify(token);
+        User user = service.readUser(userEmail);
+        Trip trip=service.getInfoOnTrip(id);
+        if (user.getId()!=trip.getDriver_id()) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+
+        return service.getPassengersTripByStatus(id);
+    }
+
+    @PostMapping("/trips/{trip_id}/passengers/{user_id}")
+    void addPassengerToTrip(@PathVariable long trip_id, @PathVariable long user_id,  @RequestHeader("Authorization") String token) {
+        String userEmail = service.verify(token);
+        User user = service.readUser(userEmail);
+        if (user.getId()!=user_id) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        service.addPassengerToATrip(trip_id, user_id);
+    }
+
+    @GetMapping("/trips/{trip_id}/passengers/{user_id}")
+    String getPassengerStatus(@PathVariable long trip_id, @PathVariable long user_id,  @RequestHeader("Authorization") String token) {
+        String userEmail = service.verify(token);
+        User user = service.readUser(userEmail);
+        Trip trip=service.getInfoOnTrip(trip_id);
+        if (user.getId()!=user_id && user.getId()!=trip.getDriver_id()) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        return service.getPassengerStatus(trip_id, user_id);
+    }
+
+    @PostMapping("/trips/{trip_id}/passengers/{user_id}")
+    void updatePassengerStatus(@PathVariable long trip_id, @PathVariable long user_id, @RequestParam String etat,  @RequestHeader("Authorization") String token) {
+        String userEmail = service.verify(token);
+        User user = service.readUser(userEmail);
+        Trip trip=service.getInfoOnTrip(trip_id);
+        if (user.getId()!=trip.getDriver_id()) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        service.updatePassenger(trip_id, user_id, etat);
+    }
+
+    @DeleteMapping("/trips/{trip_id}/passengers/{user_id}")
+    void deleteUserFromPassenger(@PathVariable long trip_id, @PathVariable long user_id,  @RequestHeader("Authorization") String token) {
+        String userEmail = service.verify(token);
+        User user = service.readUser(userEmail);
+        if (user.getId()!=user_id) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        service.deletePassenger(trip_id, user_id);
+    }
 }

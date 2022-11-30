@@ -9,7 +9,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Passenger_trips {
+public class PassengerTrips {
 
     private List<Trip> pending;
     private List<Trip> accepted;
