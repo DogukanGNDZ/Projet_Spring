@@ -105,4 +105,20 @@ ligne 187 du YML
          return service.createTrip(trip);
     }
 
+    //passe 284
+
+    @GetMapping("/trips/{id}")
+    Trip getInfoOnTrip(@PathVariable int id){
+        return service.getInfoOnTrip(id);
+    }
+    @DeleteMapping("/trips/{id}")
+    void deleteATrip(@PathVariable int idTrip, @RequestHeader("Authorization") String token){
+        String userEmail = service.verify(token);
+        User user = service.readUser(userEmail);
+        Trip trip=service.getInfoOnTrip(idTrip);
+        if (user.getId()!=trip.getDriver_id()) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        service.deleteATrip(idTrip);
+    }
+
+
 }

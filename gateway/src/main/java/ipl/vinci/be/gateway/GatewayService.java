@@ -69,5 +69,11 @@ public class GatewayService {
     public Trip createTrip(NewTrip trip){
         return tripsProxy.createOne(trip);
     }
+    public Trip getInfoOnTrip(long id){
+        return tripsProxy.readOne(id);
+    }
+    public void deleteATrip(long id){
+        tripsProxy.deleteOne(id);
+    }
 
 }
