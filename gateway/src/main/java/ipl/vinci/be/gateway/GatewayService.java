@@ -4,9 +4,12 @@ import ipl.vinci.be.gateway.data.AuthenticationProxy;
 import ipl.vinci.be.gateway.data.NotificationsProxy;
 import ipl.vinci.be.gateway.data.UsersProxy;
 import ipl.vinci.be.gateway.models.Credentials;
+import ipl.vinci.be.gateway.models.Notification;
 import ipl.vinci.be.gateway.models.User;
 import ipl.vinci.be.gateway.models.UserWithCredentials;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class GatewayService {
@@ -49,4 +52,18 @@ public class GatewayService {
     public User readUser(String email) {
         return usersProxy.readOneByEmail(email);
     }
+    public User readUserById(int id) {
+        return usersProxy.readOneById(id);
+    }
+    public void updateUser(long id,User user) {
+        usersProxy.updateOne(id, user);
+    }
+
+    public Iterable<Notification> getNotification(long id){
+      return  notificationsProxy.getUserNotifications(id);
+    }
+    public void deleteUserNotif(long id){
+        notificationsProxy.deleteAllUserNotifications(id);
+    }
+
 }
