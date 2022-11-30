@@ -66,14 +66,16 @@ public class GatewayController {
         if (!user.getEmail().equals(userEmail)) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         service.deleteUser(id);
     }
-    /*
-    ligne 157 du YAML
+
     @GetMapping("/users/{id}/driver")
     List<Trip> UserTripDriver(@PathVariable long id, @RequestHeader("Authorization") String token){
-        //besoin de trip je suis agenoux
+        String userEmail = service.verify(token);
+        User user = service.readUser(userEmail);
+        if (user.getId()!=id) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        return service.getTripsOfADriver(id);
     }
 
-    */
+
 
 
     @GetMapping("/users/{id}/passenger")

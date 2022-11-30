@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Service
 public class GatewayService {
     private final AuthenticationProxy authenticationProxy;
@@ -63,6 +65,9 @@ public class GatewayService {
     public void updateUser(long id,User user) {
         usersProxy.updateOne(id, user);
     }
+    public List<Trip> getTripsOfADriver(long id){
+       return (List<Trip>) tripsProxy.readAllTripByDriverId(id);
+    }
 
     public PassengerTrips getTripsUserAPassenger(long userId){
         return passengersProxy.tripsOfAPassenger(userId);
@@ -105,5 +110,6 @@ public class GatewayService {
     public void deletePassenger(long tripId, long userId) {
         passengersProxy.deletePassenger(tripId, userId);
     }
+
 
 }
