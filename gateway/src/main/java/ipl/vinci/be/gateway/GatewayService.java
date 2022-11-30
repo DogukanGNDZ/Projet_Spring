@@ -2,11 +2,9 @@ package ipl.vinci.be.gateway;
 
 import ipl.vinci.be.gateway.data.AuthenticationProxy;
 import ipl.vinci.be.gateway.data.NotificationsProxy;
+import ipl.vinci.be.gateway.data.TripsProxy;
 import ipl.vinci.be.gateway.data.UsersProxy;
-import ipl.vinci.be.gateway.models.Credentials;
-import ipl.vinci.be.gateway.models.Notification;
-import ipl.vinci.be.gateway.models.User;
-import ipl.vinci.be.gateway.models.UserWithCredentials;
+import ipl.vinci.be.gateway.models.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +14,13 @@ public class GatewayService {
     private final AuthenticationProxy authenticationProxy;
     private final UsersProxy usersProxy;
 
+    private final TripsProxy tripsProxy;
     private final NotificationsProxy notificationsProxy;
 
-    public GatewayService(AuthenticationProxy authenticationProxy, UsersProxy usersProxy, NotificationsProxy notificationsProxy) {
+    public GatewayService(AuthenticationProxy authenticationProxy, UsersProxy usersProxy, TripsProxy tripsProxy, NotificationsProxy notificationsProxy) {
         this.authenticationProxy = authenticationProxy;
         this.usersProxy = usersProxy;
+        this.tripsProxy = tripsProxy;
         this.notificationsProxy = notificationsProxy;
     }
 
@@ -64,6 +64,10 @@ public class GatewayService {
     }
     public void deleteUserNotif(long id){
         notificationsProxy.deleteAllUserNotifications(id);
+    }
+
+    public Trip createTrip(NewTrip trip){
+        return tripsProxy.createOne(trip);
     }
 
 }

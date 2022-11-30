@@ -99,6 +99,10 @@ ligne 187 du YML
         service.deleteUserNotif(id);
     }
 
+    @PostMapping("/trips")
+     Trip createAtrip(@RequestBody NewTrip trip){
 
+         return service.createTrip(trip);
+    }
 
 }
