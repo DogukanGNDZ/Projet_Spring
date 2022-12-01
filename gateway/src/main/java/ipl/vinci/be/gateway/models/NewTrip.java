@@ -1,5 +1,6 @@
 package ipl.vinci.be.gateway.models;
 
+import java.time.LocalDate;
 import lombok.*;
 
 @Getter
@@ -12,7 +13,7 @@ public class NewTrip {
 
     private Position origin;
     private Position destination;
-    private String departure_date;
+    private LocalDate departure;
     private long driver_id;
     private int available_seating;
 

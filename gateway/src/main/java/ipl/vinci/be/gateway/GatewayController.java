@@ -105,9 +105,10 @@ public class GatewayController {
     }
 
     @PostMapping("/trips")
-     Trip createAtrip(@RequestBody NewTrip trip){
-
-         return service.createTrip(trip);
+     Trip createAtrip(@RequestBody NewTrip trip,  @RequestHeader("Authorization") String token){
+        String userEmail = service.verify(token);
+        if (userEmail==null) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        return service.createTrip(trip);
     }
 
     //passe 284
@@ -116,13 +117,14 @@ public class GatewayController {
     Trip getInfoOnTrip(@PathVariable int id){
         return service.getInfoOnTrip(id);
     }
+
     @DeleteMapping("/trips/{id}")
-    void deleteATrip(@PathVariable int idTrip, @RequestHeader("Authorization") String token){
+    void deleteATrip(@PathVariable int id, @RequestHeader("Authorization") String token){
         String userEmail = service.verify(token);
         User user = service.readUser(userEmail);
-        Trip trip=service.getInfoOnTrip(idTrip);
+        Trip trip=service.getInfoOnTrip(id);
         if (user.getId()!=trip.getDriver_id()) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        service.deleteATrip(idTrip);
+        service.deleteATrip(id);
     }
 
     @GetMapping("/trips/{id}/passengers")

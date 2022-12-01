@@ -83,13 +83,13 @@ public class PassengerService {
     ArrayList<User> usersAccepted = new ArrayList<>();
     ArrayList<User> usersRefused = new ArrayList<>();
     for (Passenger p: passengersPending) {
-      usersPending.add(user.getUser(p.getId())) ;
+      usersPending.add(user.readOneById(p.getId())) ;
     }
     for (Passenger p: passengersRefused) {
-      usersRefused.add(user.getUser(p.getId())) ;
+      usersRefused.add(user.readOneById(p.getId())) ;
     }
     for (Passenger p: passengersAccepted) {
-      usersAccepted.add(user.getUser(p.getId())) ;
+      usersAccepted.add(user.readOneById(p.getId())) ;
     }
 
     return new Passengers(usersPending, usersAccepted, usersRefused);
@@ -110,10 +110,10 @@ public class PassengerService {
   }
 
   public PassengerTrips tripsOfAUser(long idUser){
-    if (user.getUser(idUser)== null){
+    if (user.readOneById(idUser)== null){
       throw new UserNotFoundException();
     }
-    Iterable<Trip> tripIterable = trips.getAll();
+    Iterable<Trip> tripIterable = trips.readOptionalTrip();
     ArrayList<Trip> tripsPending =new ArrayList<>();
     ArrayList<Trip> tripsAccepted =new ArrayList<>();
     ArrayList<Trip> tripsRefused =new ArrayList<>();
@@ -135,10 +135,10 @@ public class PassengerService {
   }
 
   public void removeUser(long userId){
-    if (user.getUser(userId)== null){
+    if (user.readOneById(userId)== null){
       throw new UserNotFoundException();
     }
-    Iterable<Trip> tripIterable = trips.getAll();
+    Iterable<Trip> tripIterable = trips.readOptionalTrip();
     for (Trip t: tripIterable) {
       if (repo.findByIdTripAndIdUser(t.getId(), userId)){
         deletePassenger(t.getId(), userId);

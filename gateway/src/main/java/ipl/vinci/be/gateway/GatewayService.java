@@ -53,11 +53,13 @@ public class GatewayService {
 
     public void deleteUser(long id) {
         User user= usersProxy.readOneById(id);
-        authenticationProxy.deleteCredentials(user.getEmail());
+        /*passengersProxy.removeUser(id); A REGLEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEER*/
+        tripsProxy.deleteAllTripsByDriverId(id);
         notificationsProxy.deleteAllUserNotifications(id);
+        authenticationProxy.deleteCredentials(user.getEmail());
         usersProxy.deleteOne(id);
 
-        //des chose a faire jerome fais attention
+
     }
 
     public User readUser(String email) {

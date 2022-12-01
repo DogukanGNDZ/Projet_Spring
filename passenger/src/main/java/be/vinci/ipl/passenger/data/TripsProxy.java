@@ -15,7 +15,7 @@ public interface TripsProxy {
   void deleteTrip(@PathVariable long id);
 
   @GetMapping("/passengers/{user_id}")
-  Iterable<Trip> getAll();
+  Iterable<Trip> readOptionalTrip();
 
   @GetMapping("/passengers/{user_id}")
   Trip getTrip(@RequestParam long idTrip);

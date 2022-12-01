@@ -1,42 +1,111 @@
 ### Create user
-POST http://localhost:8081/users
+POST http://localhost:8080/users
 Content-Type: application/json
 
 {
-  "email": "abcdgory.seront@v.be",
+  "email": "n.strebelle@vinci.be",
   "firstname": "Catherine",
   "lastname": "Mireault",
   "password": "notsaying"
 }
 
 ### Connect user
-POST http://localhost:8081/auth
+POST http://localhost:8080/auth
 Content-Type: application/json
 
 {
-  "email": "abcdgory.seront@v.be",
+  "email": "n.strebelle@vinci.be",
   "password": "notsaying"
 }
 
 > {% client.global.set("token", response.body) %}
 
-### Create video
-POST http://localhost:8080/videos/test
-Content-Type: application/json
+### Read user by email
+GET http://localhost:8080/users?email=n.strebelle@vinci.be
+
+### Update credentials
+PUT http://localhost:8080/users
 Authorization: {{token}}
+Content-Type: application/json
 
 {
-  "hash": "test",
-  "name": "myvid",
-  "author": "Seb",
-  "creationYear": 2022,
-  "duration": 420,
-  "url": "nope"
+  "email": "sebastien.strebelle@vinci.be",
+  "password": "password123"
 }
 
-### Read user videos
-GET http://localhost:8080/users/Seb/videos
+### Read user by id
+GET http://localhost:8080/users/1
+Authorization: {{token}}
+
+### Update user
+PUT http://localhost:8080/users/1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "email": "sebastien.strebelle@vinci.be",
+  "firstname": "Katherine",
+  "lastname": "mareault",
+  "id": 1
+}
 
 ### Delete user
-DELETE http://localhost:9001/users/
+DELETE http://localhost:8080/users/6
+Authorization: {{token}}
+
+### GET TRIPS WHERE USER IS THE DRIVER
+GET http://localhost:8080/users/7/driver
+Authorization: {{token}}
+
+
+### Get trips where user is a passenger (fcttionne pas)
+GET http://localhost:8080/users/7/passenger
+Authorization: {{token}}
+
+
+### Get notifications by user
+GET http://localhost:8080/users/1/notifications
+Authorization: {{token}}
+
+### Delete user notif
+DELETE http://localhost:8080/users/1/notifications
+Authorization: {{token}}
+
+### Create a trip
+POST http://localhost:8080/trips
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "origin": {
+    "latitude": 1.00,
+    "longitude": 1.00
+  },
+  "destination": {
+    "latitude": 3.00,
+    "longitude": 2.00
+  },
+  "departure" : "2025-05-01",
+  "driver_id": 2,
+  "available_seating": 5
+}
+
+### get trip
+GET http://localhost:8080/trips/2
+Authorization: {{token}}
+
+### delete trip
+DELETE http://localhost:8080/trips/5
+Authorization: {{token}}
+
+### Get list passenger of a Trip (FONCTIONNE PAS !!!!)
+GET http://localhost:8080/trips/4/passengers
+Authorization: {{token}}
+
+### add passenger
+POST http://localhost:8080/trips/2/passengers/2
+Authorization: {{token}}
+
+### delete passenger
+DELETE http://localhost:8080/trips/2/passengers/2
 Authorization: {{token}}
