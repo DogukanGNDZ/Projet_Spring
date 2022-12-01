@@ -1,5 +1,8 @@
 package ipl.vinci.be.user;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class UsersService {
 
     private final UsersRepository repository;

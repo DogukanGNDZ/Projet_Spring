@@ -150,7 +150,7 @@ public class GatewayController {
         return service.getPassengerStatus(trip_id, user_id);
     }
 
-    @PostMapping("/trips/{trip_id}/passengers/{user_id}")
+    @PutMapping("/trips/{trip_id}/passengers/{user_id}")
     void updatePassengerStatus(@PathVariable long trip_id, @PathVariable long user_id, @RequestParam String etat,  @RequestHeader("Authorization") String token) {
         String userEmail = service.verify(token);
         User user = service.readUser(userEmail);
