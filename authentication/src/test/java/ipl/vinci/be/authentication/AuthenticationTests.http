@@ -1,10 +1,10 @@
 ### Create credentials
-POST http://localhost:9006/authentication/Cat4Life
+POST http://localhost:9006/authentication/gregory.seront@vinci.be
 Content-Type: application/json
 
 {
-  "email": "Cat4Life",
-  "password": "azerty"
+  "email": "gregory.seront@vinci.be",
+  "password": "notsaying"
 }
 
 ### Update credentials
@@ -24,9 +24,10 @@ POST http://localhost:9006/authentication/connect
 Content-Type: application/json
 
 {
-  "email": "Cat4Life",
-  "password": "azerty"
+  "email": "gregory.seront@vinci.be",
+  "password": "notsaying"
 }
+> {% client.global.set("token", response.body) %}
 
 ### Verify token
 POST http://localhost:9006/authentication/verify

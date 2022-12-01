@@ -15,6 +15,5 @@ import javax.persistence.Id;
 public class Credentials {
     @Id
     private String email;
-    @Column(name = "hashed_password")
-    private String hashedPassword;
+    private String password;
 }

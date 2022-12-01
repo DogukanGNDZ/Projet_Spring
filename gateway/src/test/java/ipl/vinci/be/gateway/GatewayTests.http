@@ -1,0 +1,42 @@
+### Create user
+POST http://localhost:8081/users
+Content-Type: application/json
+
+{
+  "email": "gregory.seront@v.be",
+  "firstname": "Catherine",
+  "lastname": "Mireault",
+  "password": "notsaying"
+}
+
+### Connect user
+POST http://localhost:8081/auth
+Content-Type: application/json
+
+{
+  "email": "gregory.seront@vi.be",
+  "password": "notsaying"
+}
+
+> {% client.global.set("token", response.body) %}
+
+### Create video
+POST http://localhost:8080/videos/test
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "hash": "test",
+  "name": "myvid",
+  "author": "Seb",
+  "creationYear": 2022,
+  "duration": 420,
+  "url": "nope"
+}
+
+### Read user videos
+GET http://localhost:8080/users/Seb/videos
+
+### Delete user
+DELETE http://localhost:9001/users/
+Authorization: {{token}}
