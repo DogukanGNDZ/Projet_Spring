@@ -6,11 +6,9 @@ POST http://localhost:9002/passengers/1/3
 DELETE http://localhost:9002/passengers/1/3
 
 ### Update passenger
-PUT http://localhost:9002/passengers/{trip_id}/{user_id}
+PUT http://localhost:9002/passengers/1/3
 Content-Type: application/json
 
 {
-  "email": "Cat4Life",
-  "firstname": "Catherine",
-  "lastname": "Mireault"
+  "etat": "ACCEPTED"
 }

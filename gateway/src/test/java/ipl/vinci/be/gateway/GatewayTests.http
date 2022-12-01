@@ -3,7 +3,7 @@ POST http://localhost:8081/users
 Content-Type: application/json
 
 {
-  "email": "gregory.seront@v.be",
+  "email": "abcdgory.seront@v.be",
   "firstname": "Catherine",
   "lastname": "Mireault",
   "password": "notsaying"
@@ -14,7 +14,7 @@ POST http://localhost:8081/auth
 Content-Type: application/json
 
 {
-  "email": "gregory.seront@vi.be",
+  "email": "abcdgory.seront@v.be",
   "password": "notsaying"
 }
 
