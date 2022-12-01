@@ -40,10 +40,14 @@ public class PassengerController {
   }
 
   @PutMapping("/passengers/{trip_id}/{user_id}")
-  public ResponseEntity<Void> updatePassenger(@PathVariable long trip_id, @PathVariable long user_id, @RequestBody String etat){
-    if (!(etat == "ACCEPTED" || etat == "REFUSED")){throw new StatusNotInAcceptedValueException();}
-    service.updateStatus(trip_id, user_id, etat);
-    return new ResponseEntity<>(HttpStatus.OK);
+  public ResponseEntity<Void> updatePassenger(@PathVariable long trip_id, @PathVariable long user_id, @RequestParam String etat){
+    if (etat.equals("ACCEPTED") || etat.equals("REFUSED")){
+      service.updateStatus(trip_id, user_id, etat);
+      return new ResponseEntity<>(HttpStatus.OK);
+    } else {
+      throw new StatusNotInAcceptedValueException();
+    }
+
   }
 
   @GetMapping("/passengers/{trip_id}/{user_id}")
@@ -51,23 +55,23 @@ public class PassengerController {
     return service.getPassengerStatus(trip_id, user_id);
   }
 
-  @GetMapping("/passengers/{trip_id}")
+  @GetMapping("/passengers/trips/{trip_id}")
   public Passengers getListOfPassengersOfATrip(@PathVariable long trip_id){
     return service.getListOfPassengersOfATrip(trip_id);
   }
 
-  @DeleteMapping("/passengers/{trip_id}")
+  @DeleteMapping("/passengers/trips/{trip_id}")
   public ResponseEntity<Void> deleteTrip(@PathVariable long trip_id){
     service.removeTrip(trip_id);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  @GetMapping("/passengers/{user_id}")
+  @GetMapping("/passengers/users/{user_id}")
   public PassengerTrips tripsOfAPassenger(@PathVariable long user_id){
     return service.tripsOfAUser(user_id);
   }
 
-  @DeleteMapping("/passengers/{user_id}")
+  @DeleteMapping("/passengers/users/{user_id}")
   public ResponseEntity<Void> removeUser(@PathVariable long user_id){
     service.removeUser(user_id);
     return new ResponseEntity<>(HttpStatus.OK);

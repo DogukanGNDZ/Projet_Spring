@@ -6,6 +6,7 @@ import ipl.vinci.be.gateway.data.PassengersProxy;
 import ipl.vinci.be.gateway.data.TripsProxy;
 import ipl.vinci.be.gateway.data.UsersProxy;
 import ipl.vinci.be.gateway.models.*;
+import java.time.LocalDate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,7 +54,7 @@ public class GatewayService {
 
     public void deleteUser(long id) {
         User user= usersProxy.readOneById(id);
-        /*passengersProxy.removeUser(id); A REGLEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEER*/
+        passengersProxy.removeUser(id);
         tripsProxy.deleteAllTripsByDriverId(id);
         notificationsProxy.deleteAllUserNotifications(id);
         authenticationProxy.deleteCredentials(user.getEmail());
@@ -94,6 +95,7 @@ public class GatewayService {
         return tripsProxy.readOne(id);
     }
     public void deleteATrip(long id){
+        notificationsProxy.deleteAllTripNotifications(id);
         tripsProxy.deleteOne(id);
     }
 
@@ -102,6 +104,8 @@ public class GatewayService {
     }
 
     public void addPassengerToATrip(long tripId, long userId){
+        Notification notification = new Notification(userId,tripId,LocalDate.now().toString(), "Passagé ajouté");
+        notificationsProxy.createOne(notification);
         passengersProxy.addPassenger(tripId, userId);
     }
 
@@ -110,11 +114,19 @@ public class GatewayService {
     }
 
     public void updatePassenger(long tripId, long userId, String etat) {
+        Notification notification = new Notification(userId,tripId,LocalDate.now().toString(), "Votre etat est maintenant: "+ etat);
+        notificationsProxy.createOne(notification);
         passengersProxy.updatePassenger(tripId, userId, etat);
     }
 
     public void deletePassenger(long tripId, long userId) {
+        Notification notification = new Notification(userId,tripId,LocalDate.now().toString(), "Passagé supprimé");
+        notificationsProxy.createOne(notification);
         passengersProxy.deletePassenger(tripId, userId);
+    }
+
+    public List<Trip> searchTrip(LocalDate departure, Double originLat, Double originLong, Double destinationLat, Double destinationLong){
+        return (List<Trip>) tripsProxy.readOptionalTrip(departure,originLat,originLong,destinationLat,destinationLong);
     }
 
 

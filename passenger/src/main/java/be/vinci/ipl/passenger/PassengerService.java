@@ -54,14 +54,13 @@ public class PassengerService {
     if (oldPassenger == null){
       throw new TripOrUserNotFound404Exception();
     }
-    NoIdPassenger noIdPassenger;
-    if (etat == "ACCEPTED") {
-       noIdPassenger = new NoIdPassenger(idTrip, idUser, Etat.ACCEPTED);
+    if (etat.equals("ACCEPTED")) {
+      oldPassenger.setEtat(Etat.ACCEPTED);
     } else{
-       noIdPassenger = new NoIdPassenger(idTrip, idUser, Etat.REFUSED);
+      oldPassenger.setEtat(Etat.REFUSED);
   }
 
-    repo.save(noIdPassenger.toPassenger(oldPassenger.getId()));
+    repo.save(oldPassenger);
   }
 
   public String getPassengerStatus(long idTrip, long idUser) throws TripOrUserNotFound404Exception {
@@ -105,7 +104,7 @@ public class PassengerService {
     for (User u:users) {
       deletePassenger(idTrip, u.getId());
     }
-    trips.deleteTrip(idTrip);
+    trips.deleteOne(idTrip);
 
   }
 
@@ -113,7 +112,7 @@ public class PassengerService {
     if (user.readOneById(idUser)== null){
       throw new UserNotFoundException();
     }
-    Iterable<Trip> tripIterable = trips.readOptionalTrip();
+    Iterable<Trip> tripIterable = trips.readOptionalTrip(null, null,null ,null,null);
     ArrayList<Trip> tripsPending =new ArrayList<>();
     ArrayList<Trip> tripsAccepted =new ArrayList<>();
     ArrayList<Trip> tripsRefused =new ArrayList<>();
@@ -121,13 +120,13 @@ public class PassengerService {
       if (repo.existsByIdTripAndIdUser(t.getId(),idUser)){
         Passenger p = repo.getPassengerByIdTripAndIdUser(t.getId(), idUser);
         if (p.getEtat() == Etat.ACCEPTED){
-          tripsAccepted.add(trips.getTrip(t.getId()));
+          tripsAccepted.add(trips.readOne(t.getId()));
         }
         if (p.getEtat() == Etat.REFUSED){
-          tripsRefused.add(trips.getTrip(t.getId()));
+          tripsRefused.add(trips.readOne(t.getId()));
         }
         if (p.getEtat() == Etat.PENDING){
-          tripsPending.add(trips.getTrip(t.getId()));
+          tripsPending.add(trips.readOne(t.getId()));
         }
       }
     }
@@ -138,7 +137,7 @@ public class PassengerService {
     if (user.readOneById(userId)== null){
       throw new UserNotFoundException();
     }
-    Iterable<Trip> tripIterable = trips.readOptionalTrip();
+    Iterable<Trip> tripIterable = trips.readOptionalTrip(null, null,null ,null,null);
     for (Trip t: tripIterable) {
       if (repo.findByIdTripAndIdUser(t.getId(), userId)){
         deletePassenger(t.getId(), userId);

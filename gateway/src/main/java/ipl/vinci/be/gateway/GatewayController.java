@@ -2,6 +2,8 @@ package ipl.vinci.be.gateway;
 
 
 import ipl.vinci.be.gateway.models.*;
+import java.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -111,7 +113,16 @@ public class GatewayController {
         return service.createTrip(trip);
     }
 
-    //passe 284
+    @GetMapping("/trips")
+    List<Trip> getListOfTripsWithOptional(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departure,
+        @RequestParam(required = false) Double originLat,
+        @RequestParam(required = false) Double originLong,
+        @RequestParam(required = false) Double destinationLat,
+        @RequestParam(required = false) Double destinationLong, @RequestHeader("Authorization") String token ){
+        String userEmail = service.verify(token);
+        if (userEmail==null) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        return service.searchTrip(departure,originLat,originLong,destinationLat,destinationLong);
+    }
 
     @GetMapping("/trips/{id}")
     Trip getInfoOnTrip(@PathVariable int id){

@@ -28,7 +28,11 @@ public interface TripsProxy {
 
     @DeleteMapping("/trips/driver/{user_id}")
     public void deleteAllTripsByDriverId(@PathVariable long user_id);
-    @GetMapping("/trips")
-    public Iterable<Trip> readOptionnalTrip(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departure, @RequestParam(required = false) double originLat, @RequestParam(required = false) double originLong, @RequestParam(required = false)double destinationLat, @RequestParam(required = false)double destinationLong);
 
+    @GetMapping("/trips")
+    Iterable<Trip> readOptionalTrip(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departure,
+        @RequestParam(required = false) Double originLat,
+        @RequestParam(required = false) Double originLong,
+        @RequestParam(required = false) Double destinationLat,
+        @RequestParam(required = false) Double destinationLong);
 }

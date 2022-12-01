@@ -3,7 +3,7 @@ POST http://localhost:8080/users
 Content-Type: application/json
 
 {
-  "email": "n.strebelle@vinci.be",
+  "email": "jerome3.strebelle@vinci.be",
   "firstname": "Catherine",
   "lastname": "Mireault",
   "password": "notsaying"
@@ -14,14 +14,14 @@ POST http://localhost:8080/auth
 Content-Type: application/json
 
 {
-  "email": "n.strebelle@vinci.be",
+  "email": "jerome3.strebelle@vinci.be",
   "password": "notsaying"
 }
 
 > {% client.global.set("token", response.body) %}
 
 ### Read user by email
-GET http://localhost:8080/users?email=n.strebelle@vinci.be
+GET http://localhost:8080/users?email=jerome2.strebelle@vinci.be
 
 ### Update credentials
 PUT http://localhost:8080/users
@@ -58,8 +58,8 @@ GET http://localhost:8080/users/7/driver
 Authorization: {{token}}
 
 
-### Get trips where user is a passenger (fcttionne pas)
-GET http://localhost:8080/users/7/passenger
+### Get trips where user is a passenger
+GET http://localhost:8080/users/1/passenger
 Authorization: {{token}}
 
 
@@ -86,26 +86,42 @@ Content-Type: application/json
     "longitude": 2.00
   },
   "departure" : "2025-05-01",
-  "driver_id": 2,
-  "available_seating": 5
+  "driver_id": 1,
+  "available_seating": 10
 }
+
+### Read Optionnal Trip
+GET http://localhost:8080/trips?destinationLat=3.00&destinationLong=2.00&departure=2025-05-01
+Authorization: {{token}}
+
+### Read All Trips
+GET http://localhost:8080/trips
+Authorization: {{token}}
 
 ### get trip
 GET http://localhost:8080/trips/2
 Authorization: {{token}}
 
 ### delete trip
-DELETE http://localhost:8080/trips/5
+DELETE http://localhost:8080/trips/2
 Authorization: {{token}}
 
-### Get list passenger of a Trip (FONCTIONNE PAS !!!!)
-GET http://localhost:8080/trips/4/passengers
+### Get list passenger of a Trip
+GET http://localhost:8080/trips/1/passengers
 Authorization: {{token}}
 
 ### add passenger
-POST http://localhost:8080/trips/2/passengers/2
+POST http://localhost:8080/trips/1/passengers/1
 Authorization: {{token}}
 
 ### delete passenger
 DELETE http://localhost:8080/trips/2/passengers/2
+Authorization: {{token}}
+
+### update passenger
+PUT http://localhost:8080/trips/1/passengers/3?etat=ACCEPTED
+Authorization: {{token}}
+
+### get passenger status
+GET http://localhost:8080/trips/1/passengers/1
 Authorization: {{token}}

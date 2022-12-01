@@ -24,15 +24,15 @@ public interface PassengersProxy {
   @GetMapping("/passengers/{trip_id}/{user_id}")
   String getPassengerStatus(@PathVariable long trip_id, @PathVariable long user_id);
 
-  @GetMapping("/passengers/{trip_id}")
+  @GetMapping("/passengers/trips/{trip_id}")
   Passengers getListOfPassengersOfATrip(@PathVariable long trip_id);
 
-  @DeleteMapping("/passengers/{trip_id}")
+  @DeleteMapping("/passengers/trips/{trip_id}")
   ResponseEntity<Void> deleteTrip(@PathVariable long trip_id);
 
-  @GetMapping("/passengers/{user_id}")
+  @GetMapping("/passengers/users/{user_id}")
   PassengerTrips tripsOfAPassenger(@PathVariable long user_id);
 
-  @DeleteMapping("/passengers/{user_id}")
+  @DeleteMapping("/passengers/users/{user_id}")
   ResponseEntity<Void> removeUser(@PathVariable long user_id);
 }
