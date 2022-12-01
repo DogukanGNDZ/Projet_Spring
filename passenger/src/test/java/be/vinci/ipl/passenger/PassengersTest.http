@@ -1,0 +1,2 @@
+### Create passenger
+POST http://localhost:9002/passengers/1/3
