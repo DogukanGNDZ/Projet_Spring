@@ -1,5 +1,6 @@
 package ipl.vinci.be.authentication;
 
+import ipl.vinci.be.authentication.models.Credentials;
 import ipl.vinci.be.authentication.models.InsecureCredentials;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,11 @@ public class AuthenticationController {
 
 
     @PostMapping("/authentication/connect")
-    public String connect(@RequestBody InsecureCredentials credentials) {
-        String token =  service.connect(credentials);
+    public String connect(@RequestBody Credentials credentials) {
+        InsecureCredentials credentials1 = new InsecureCredentials();
+        credentials1.setEmail(credentials.getEmail());
+        credentials1.setPassword(credentials.getPassword());
+        String token =  service.connect(credentials1);
         if (token == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         return token;
     }
@@ -38,6 +42,7 @@ public class AuthenticationController {
                 !credentials.getEmail().equals(email)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+        System.out.println("ici");
         boolean created = service.createOne(credentials);
         if (!created) throw new ResponseStatusException(HttpStatus.CONFLICT);
         return new ResponseEntity<>(HttpStatus.CREATED);

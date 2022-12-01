@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 @Repository
-@FeignClient(name = "users")
+@FeignClient(name = "user")
 public interface UsersProxy {
 
     @PostMapping("/users")

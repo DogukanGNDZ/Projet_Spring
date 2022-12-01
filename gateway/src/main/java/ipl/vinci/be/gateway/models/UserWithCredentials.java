@@ -12,15 +12,13 @@ import lombok.ToString;
 @NoArgsConstructor
 public class UserWithCredentials {
 
-    private long id;
+
     private String email;
     private String firstname;
     private String lastname;
     private String password;
 
-    public User toUser() {
-        return new User(id,email, firstname, lastname);
-    }
+
     public Credentials toCredentials() {
         return new Credentials(email, password);
     }

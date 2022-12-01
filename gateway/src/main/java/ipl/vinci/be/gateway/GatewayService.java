@@ -39,8 +39,12 @@ public class GatewayService {
         return authenticationProxy.verify(token);
     }
     public void createUser(UserWithCredentials user) {
-        usersProxy.createOne(user.toNewUser());
+        NewUser nu = user.toNewUser();
+        usersProxy.createOne(nu);
+        System.out.println("ici");
         authenticationProxy.createCredentials(user.getEmail(), user.toCredentials());
+        System.out.println("fini");
+
     }
 
     public void updateUserPwd(Credentials user) {

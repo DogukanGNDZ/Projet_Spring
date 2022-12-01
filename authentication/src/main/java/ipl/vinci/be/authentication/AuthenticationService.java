@@ -32,7 +32,7 @@ public class AuthenticationService {
     public String connect(InsecureCredentials insecureCredentials) {
         Credentials credentials = repository.findById(insecureCredentials.getEmail()).orElse(null);
         if (credentials == null) return null;
-        if (!BCrypt.checkpw(insecureCredentials.getPassword(), credentials.getHashedPassword())) return null;
+        if (!BCrypt.checkpw(insecureCredentials.getPassword(), credentials.getPassword())) return null;
         return JWT.create().withIssuer("auth0").withClaim("pseudo", credentials.getEmail()).sign(jwtAlgorithm);
     }
 
