@@ -1,0 +1,2 @@
+### Get distance
+GET http://localhost:9012/gps?originLat=44.4&originLon=45.5&destinationLat=56.9&destinationLon=58.7
