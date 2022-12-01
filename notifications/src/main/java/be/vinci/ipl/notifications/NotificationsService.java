@@ -29,11 +29,11 @@ public class NotificationsService {
    * delete all notifications of a user
    * @param idUser The id of the user
    */
-  public void deleteAllNotificationsUser(long idUser){repository.removeAllByUserId(idUser);}
+  public void deleteAllNotificationsUser(long idUser){repository.deleteAllByUserId(idUser);}
 
   /**
    * delete all notifications from a trip
    * @param idTrip The id of the trip
    */
-  public boolean deleteAllNotificationsTrip(long idTrip){return repository.removeAllByTripId(idTrip);}
+  public void deleteAllNotificationsTrip(long idTrip){repository.deleteAllByTripId(idTrip);}
 }

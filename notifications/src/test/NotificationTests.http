@@ -1,0 +1,19 @@
+### Create notifications
+POST http://localhost:9011/notifications
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "tripId": 1,
+  "date": "le jour d aujourd hui",
+  "notificationText": "vous marchez pas"
+}
+
+### Get trip of a user
+GET http://localhost:9011/notifications/user/1
+
+### Delete notifications of a user
+DELETE http://localhost:9011/notifications/user/1
+
+### Delete notifications of a trip
+DELETE http://localhost:9011/notifications/trip/1

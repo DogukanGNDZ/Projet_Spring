@@ -1,9 +1,12 @@
 package be.vinci.ipl.notifications;
+import javax.transaction.Transactional;
 import org.springframework.data.repository.CrudRepository;
 
 public interface NotificationsRepository extends CrudRepository<Notification,Long>{
 
   Iterable<Notification>  findByUserId(long userId);
-  void removeAllByUserId(long userId);
-  boolean removeAllByTripId(long tripId);
+  @Transactional
+  void deleteAllByUserId(long userId);
+  @Transactional
+  void deleteAllByTripId(long tripId);
 }

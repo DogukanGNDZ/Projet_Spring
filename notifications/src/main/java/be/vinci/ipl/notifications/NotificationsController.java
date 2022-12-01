@@ -42,6 +42,6 @@ public class NotificationsController {
 
   @DeleteMapping("/notifications/trip/{id}")
   public void deleteAllTripNotifications(@PathVariable long id){
-    if(!service.deleteAllNotificationsTrip(id))throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    service.deleteAllNotificationsTrip(id);
   }
 }
