@@ -60,7 +60,7 @@ public class TripsService {
 
     /**
      * Get trips where user is the driver with a future departure date
-     * @param driver_id
+     * @param driver_id id of the driver
      * @return an array of trips corresponding to driver_id
      */
 
@@ -70,14 +70,22 @@ public class TripsService {
 
     /**
      * Delete all trips of a driver
-     * @param driver_id
+     * @param driver_id id of the driver
      */
     public void deleteAllTripsByDriverId(int driver_id){
         repository.deleteAllByDriverId(driver_id);
     }
 
 
-
+    /**
+     * Get all trips with optional search
+     * @param departure the departure date
+     * @param originLat the origin latitude
+     * @param originLong the origin longitude
+     * @param destinationLat the destination latitude
+     * @param destinationLong the destination longitude
+     * @return a list of trips according to the request
+     */
     public Iterable<Trip> findOptionnalTrips(LocalDate departure, Double originLat, Double originLong, Double destinationLat, Double destinationLong) {
         Iterable<Trip> res = repository.findByAvailableSeatingIsGreaterThan(0);
 
