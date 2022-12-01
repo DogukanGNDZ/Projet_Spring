@@ -1,0 +1,68 @@
+### Create trip
+POST http://localhost:9001/trips
+Content-Type: application/json
+
+{
+  "origin": {
+    "latitude": 1.00,
+    "longitude": 1.00
+  },
+  "destination": {
+    "latitude": 2.00,
+    "longitude": 2.00
+  },
+  "departure" : "2025-05-01",
+  "driver_id": 1,
+  "available_seating": 2
+}
+
+### Create trip
+POST http://localhost:9001/trips
+Content-Type: application/json
+
+{
+  "origin": {
+    "latitude": 1.00,
+    "longitude": 1.00
+  },
+  "destination": {
+    "latitude": 2.00,
+    "longitude": 2.00
+  },
+  "departure" : "2024-05-01",
+  "driver_id": 1,
+  "available_seating": 2
+}
+
+### Create trip
+POST http://localhost:9001/trips
+Content-Type: application/json
+
+{
+  "origin": {
+    "latitude": 2.00,
+    "longitude": 2.00
+  },
+  "destination": {
+    "latitude": 1.00,
+    "longitude": 1.00
+  },
+  "departure" : "2023-11-22",
+  "driver_id": 2,
+  "available_seating": 3
+}
+
+### Get trip
+GET http://localhost:9001/trips/3
+
+### Delete trip
+DELETE http://localhost:9001/trips/1
+
+### Read all trip from a driver
+GET http://localhost:9001/trips/driver/1
+
+### Delete all trip from a driver
+DELETE http://localhost:9001/trips/driver/1
+
+### Read Optionnal Trip
+GET http://localhost:9001/trips?destinationLat=2.00&destinationLong=2.00&departure=2024-05-01
