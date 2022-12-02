@@ -109,6 +109,8 @@ public class GatewayController {
     @PostMapping("/trips")
      Trip createAtrip(@RequestBody NewTrip trip,  @RequestHeader("Authorization") String token){
         String userEmail = service.verify(token);
+        User user = service.readUser(userEmail);
+        if(trip.getDriver_id()!=user.getId()) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         if (userEmail==null) throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         return service.createTrip(trip);
     }

@@ -57,7 +57,8 @@ public class PassengerService {
       throw new TripOrUserNotFound404Exception();
     }
     if (etat.equals("ACCEPTED")) {
-      /*if(trip.getAvailableSeating()>0){
+      /*
+      if(trip.getAvailableSeating()>0){
         oldPassenger.setEtat(Etat.ACCEPTED);
         trip.setAvailableSeating(trip.getAvailableSeating()-1);
         trips.updateOne(trip);

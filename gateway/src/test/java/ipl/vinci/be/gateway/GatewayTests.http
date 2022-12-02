@@ -3,7 +3,7 @@ POST http://localhost:8080/users
 Content-Type: application/json
 
 {
-  "email": "jerome2.strebelle@vinci.be",
+  "email": "jerome.strebelle@vinci.be",
   "firstname": "Catherine",
   "lastname": "Mireault",
   "password": "notsaying"
@@ -21,7 +21,7 @@ Content-Type: application/json
 > {% client.global.set("token", response.body) %}
 
 ### Read user by email
-GET http://localhost:8080/users?email=jerome12.strebelle@vinci.be
+GET http://localhost:8080/users?email=jerome1.strebelle@vinci.be
 
 ### Update credentials
 PUT http://localhost:8080/users
@@ -86,7 +86,7 @@ Content-Type: application/json
     "longitude": 2.00
   },
   "departure" : "2025-05-01",
-  "driver_id": 1,
+  "driver_id": 2,
   "available_seating": 2
 }
 
@@ -111,7 +111,7 @@ GET http://localhost:8080/trips/1/passengers
 Authorization: {{token}}
 
 ### add passenger
-POST http://localhost:8080/trips/1/passengers/2
+POST http://localhost:8080/trips/1/passengers/3
 Authorization: {{token}}
 
 ### delete passenger
@@ -119,7 +119,7 @@ DELETE http://localhost:8080/trips/2/passengers/2
 Authorization: {{token}}
 
 ### update passenger
-PUT http://localhost:8080/trips/1/passengers/2?etat=ACCEPTED
+PUT http://localhost:8080/trips/1/passengers/3?etat=ACCEPTED
 Authorization: {{token}}
 
 ### get passenger status
