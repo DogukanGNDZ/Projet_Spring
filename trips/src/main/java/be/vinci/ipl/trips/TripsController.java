@@ -41,6 +41,11 @@ public class TripsController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
+    @PutMapping("/trips/{id}")
+    void updateOne(@RequestBody Trip trip){
+        service.updateOne(trip);
+    }
+
 
     @GetMapping("/trips/driver/{user_id}")
     public Iterable<Trip> readAllTripByDriverId(@PathVariable int user_id){

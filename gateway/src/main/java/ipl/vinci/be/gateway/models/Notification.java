@@ -10,9 +10,9 @@ import lombok.*;
 
 public class Notification {
 
-    private long user_id;
-    private long trip_id;
+    private long userId;
+    private long tripId;
     private String date;
-    private String notification_text;
+    private String notificationText;
 
 }

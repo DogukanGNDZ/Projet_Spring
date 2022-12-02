@@ -3,6 +3,7 @@ package be.vinci.ipl.passenger;
 import be.vinci.ipl.passenger.data.PassengerRepository;
 import be.vinci.ipl.passenger.data.TripsProxy;
 import be.vinci.ipl.passenger.data.UsersProxy;
+import be.vinci.ipl.passenger.exceptions.NoMoreSeatingException;
 import be.vinci.ipl.passenger.exceptions.PassengerEtatNotPendingException;
 import be.vinci.ipl.passenger.exceptions.TripNotFoundException;
 import be.vinci.ipl.passenger.exceptions.TripOrUserNotFound404Exception;
@@ -51,10 +52,18 @@ public class PassengerService {
     if (!repo.existsByIdTripAndIdUser(idTrip, idUser)){throw new UserNotPassengerException();}
     if (repo.getPassengerByIdTripAndIdUser(idTrip, idUser).getEtat() != Etat.PENDING){throw new PassengerEtatNotPendingException();}
     Passenger oldPassenger = repo.getPassengerByIdTripAndIdUser(idTrip, idUser);
+    Trip trip = trips.readOne(idTrip);
     if (oldPassenger == null){
       throw new TripOrUserNotFound404Exception();
     }
     if (etat.equals("ACCEPTED")) {
+      /*if(trip.getAvailableSeating()>0){
+        oldPassenger.setEtat(Etat.ACCEPTED);
+        trip.setAvailableSeating(trip.getAvailableSeating()-1);
+        trips.updateOne(trip);
+      } else {
+        throw new NoMoreSeatingException();
+      }*/
       oldPassenger.setEtat(Etat.ACCEPTED);
     } else{
       oldPassenger.setEtat(Etat.REFUSED);
@@ -82,13 +91,13 @@ public class PassengerService {
     ArrayList<User> usersAccepted = new ArrayList<>();
     ArrayList<User> usersRefused = new ArrayList<>();
     for (Passenger p: passengersPending) {
-      usersPending.add(user.readOneById(p.getId())) ;
+      usersPending.add(user.readOneById(p.getIdUser())) ;
     }
     for (Passenger p: passengersRefused) {
-      usersRefused.add(user.readOneById(p.getId())) ;
+      usersRefused.add(user.readOneById(p.getIdUser())) ;
     }
     for (Passenger p: passengersAccepted) {
-      usersAccepted.add(user.readOneById(p.getId())) ;
+      usersAccepted.add(user.readOneById(p.getIdUser())) ;
     }
 
     return new Passengers(usersPending, usersAccepted, usersRefused);
@@ -139,7 +148,8 @@ public class PassengerService {
     }
     Iterable<Trip> tripIterable = trips.readOptionalTrip(null, null,null ,null,null);
     for (Trip t: tripIterable) {
-      if (repo.findByIdTripAndIdUser(t.getId(), userId)){
+      long tripId = t.getId();
+      if (repo.existsByIdTripAndIdUser(tripId, userId)){
         deletePassenger(t.getId(), userId);
       }
     }

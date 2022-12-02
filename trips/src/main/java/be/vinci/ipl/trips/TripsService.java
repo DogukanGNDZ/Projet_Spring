@@ -58,6 +58,10 @@ public class TripsService {
         return true;
     }
 
+    public void updateOne(Trip trip){
+        repository.save(trip);
+    }
+
     /**
      * Get trips where user is the driver with a future departure date
      * @param driver_id id of the driver

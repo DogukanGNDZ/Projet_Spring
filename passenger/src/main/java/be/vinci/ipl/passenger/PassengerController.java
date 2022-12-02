@@ -72,9 +72,8 @@ public class PassengerController {
   }
 
   @DeleteMapping("/passengers/users/{user_id}")
-  public ResponseEntity<Void> removeUser(@PathVariable long user_id){
+  public void removeUser(@PathVariable long user_id){
     service.removeUser(user_id);
-    return new ResponseEntity<>(HttpStatus.OK);
   }
 
 }
